@@ -15,6 +15,8 @@ if len(sys.argv) > 1:
 if len(sys.argv) > 2:
     database_location = sys.argv[2]
 
+language_identifier = starting_article[starting_article.find("//") + 2:starting_article.find(".")]
+
 log = logger.Logger(logging_location)
 
 def main():
@@ -22,6 +24,7 @@ def main():
     log.log("Logging started")
     log.log("Database saving in " + database_location)
     log.log("Articles max: " + str(MAX_ARTICLES))
+    log.log("Language: " + language_identifier)
 
     queued_articles = [starting_article]
     article_count = 0
@@ -42,10 +45,16 @@ def main():
 
 def parse_article(queue, article):
     clear_name = link_to_identifier(article)
-    log.log("Requesting " + article)
+    log.log("Requesting " + clear_name)
     return queue
 
+def remove_protocol(link):
+    end = link.find("//") + 2
+    return link[:end]
+
 def link_to_identifier(link):
-    return link
+    url_part = language_identifier + ".wikipedia.org/wiki/"
+    start = link.find(url_part) + len(url_part)
+    return link[start:]
 
 main()
