@@ -93,3 +93,4 @@ ENV/
 
 #WikiScraper data files from tests
 data/
+logs/
