@@ -72,6 +72,10 @@ def parse_article(queue, article):
     timestamp = str(time.time())
     save_article_info(clear_name, heading, timestamp)
     log.log("Article info saved")
+
+    #Find links
+    article_content = soup.find_all(class_ = "mw-parser-output")[0]
+    possible_links = strip_wiki_links(article_content)
     return queue
 
 def remove_protocol(link):
@@ -90,5 +94,15 @@ def save_article_info(wiki_id, clearname, timestamp):
     params = (wiki_id, timestamp, clearname)
     con.execute("INSERT INTO " + article_table_name + "(wiki_id, date, clearname) VALUES(?, ?, ?)", params)
     db.commit()
+
+def strip_wiki_links(main_content):
+    links = []
+    subp = main_content.find_all("p")
+    for paragraph in subp:
+        pass
+    return links
+
+def is_internal_link(link):
+    return (link[:6] == "/wiki/") and (link[6:11] != "File:")
 
 main()
