@@ -2,6 +2,7 @@ import sqlite3
 import sys
 import requests
 import logger
+import time
 from bs4 import BeautifulSoup
 
 starting_article = "https://en.wikipedia.org/wiki/Constellation"
@@ -33,8 +34,8 @@ def main():
     #Create tables in db
     t = (article_table_name,)
     t2 = (date_table_name,)
-    con.execute("CREATE TABLE IF NOT EXISTS " + article_table_name + " (id INT PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), clearname VARCHAR(512))")
-    con.execute("CREATE TABLE IF NOT EXISTS " + date_table_name + " (id INT PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), sentence VARCHAR(1024))")
+    con.execute("CREATE TABLE IF NOT EXISTS " + article_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), clearname VARCHAR(512))")
+    con.execute("CREATE TABLE IF NOT EXISTS " + date_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), sentence VARCHAR(1024))")
     log.log("Database successfully prepared")
 
     log.log("Articles max: " + str(MAX_ARTICLES))
@@ -67,7 +68,7 @@ def parse_article(queue, article):
     #Get the heading
     heading_html = soup.find_all(id = "firstHeading")[0]
     heading = heading_html.get_text()
-    print(heading)
+    timestamp = str(time.time())
     return queue
 
 def remove_protocol(link):
@@ -80,6 +81,9 @@ def link_to_identifier(link):
     return link[start:]
 
 def article_is_parsed(clearname):
+    pass
+
+def save_article_info(wiki_id, clearname, timestamp):
     pass
 
 main()
