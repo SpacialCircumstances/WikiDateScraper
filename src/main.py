@@ -60,6 +60,9 @@ def main():
 def parse_article(queue, article):
     clear_name = link_to_identifier(article)
     log.log("Requesting " + clear_name)
+    wikipage = requests.get(article)
+    log.log("Response: " + str(wikipage.status_code))
+    soup = BeautifulSoup(wikipage.content, "html.parser")
     return queue
 
 def remove_protocol(link):
@@ -70,5 +73,8 @@ def link_to_identifier(link):
     url_part = language_identifier + ".wikipedia.org/wiki/"
     start = link.find(url_part) + len(url_part)
     return link[start:]
+
+def article_is_parsed(clearname):
+    pass
 
 main()
