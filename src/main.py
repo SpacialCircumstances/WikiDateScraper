@@ -63,6 +63,11 @@ def parse_article(queue, article):
     wikipage = requests.get(article)
     log.log("Response: " + str(wikipage.status_code))
     soup = BeautifulSoup(wikipage.content, "html.parser")
+
+    #Get the heading
+    heading_html = soup.find_all(id = "firstHeading")[0]
+    heading = heading_html.get_text()
+    print(heading)
     return queue
 
 def remove_protocol(link):
