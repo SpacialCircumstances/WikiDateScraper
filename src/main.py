@@ -25,17 +25,18 @@ con = db.cursor()
 article_table_name = language_identifier + "_articles"
 date_table_name = language_identifier + "_dates"
 
-#Create tables if they don´t exist
-
-t = (article_table_name,)
-t2 = (date_table_name,)
-con.execute("CREATE TABLE IF NOT EXISTS ? (id INT PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), clearname VARCHAR(512))", t)
-con.execute("CREATE TABLE IF NOT EXISTS ? (id INT PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), sentence VARCHAR(1024))", t2)
-
 def main():
     #Prepare logfile
     log.log("Logging started")
     log.log("Database saving in " + database_location)
+    
+    #Create tables in db
+    t = (article_table_name,)
+    t2 = (date_table_name,)
+    con.execute("CREATE TABLE IF NOT EXISTS " + article_table_name + " (id INT PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), clearname VARCHAR(512))")
+    con.execute("CREATE TABLE IF NOT EXISTS " + date_table_name + " (id INT PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), sentence VARCHAR(1024))")
+    log.log("Database successfully prepared")
+
     log.log("Articles max: " + str(MAX_ARTICLES))
     log.log("Language: " + language_identifier)
 
