@@ -60,8 +60,8 @@ def main():
     log.close()
 
 def parse_article(queue, article):
-    clear_name = link_to_identifier(article)
-    log.log("Requesting " + clear_name)
+    wiki_id = link_to_identifier(article)
+    log.log("Requesting " + wiki_id)
     wikipage = requests.get(article)
     log.log("Response: " + str(wikipage.status_code))
     soup = BeautifulSoup(wikipage.content, "html.parser")
@@ -70,7 +70,7 @@ def parse_article(queue, article):
     heading_html = soup.find_all(id = "firstHeading")[0]
     heading = heading_html.get_text()
     timestamp = str(time.time())
-    save_article_info(clear_name, heading, timestamp)
+    save_article_info(wiki_id, heading, timestamp)
     log.log("Article info saved")
 
     #Find links
