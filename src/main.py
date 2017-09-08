@@ -76,6 +76,8 @@ def parse_article(queue, article):
     #Find links
     article_content = soup.find_all(class_ = "mw-parser-output")[0]
     possible_links = strip_wiki_links(article_content)
+    new_links = [i for i in possible_links if not article_is_parsed(i)]
+    log.log("Links found: " + str(len(possible_links)) + " New are: " + str(len(new_links)))
     return queue
 
 def remove_protocol(link):
@@ -87,8 +89,8 @@ def link_to_identifier(link):
     start = link.find(url_part) + len(url_part)
     return link[start:]
 
-def article_is_parsed(clearname):
-    pass
+def article_is_parsed(wiki_id):
+    return False
 
 def save_article_info(wiki_id, clearname, timestamp):
     params = (wiki_id, timestamp, clearname)
