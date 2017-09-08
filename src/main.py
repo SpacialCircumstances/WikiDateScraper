@@ -36,6 +36,7 @@ def main():
     t2 = (date_table_name,)
     con.execute("CREATE TABLE IF NOT EXISTS " + article_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), clearname VARCHAR(512))")
     con.execute("CREATE TABLE IF NOT EXISTS " + date_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), sentence VARCHAR(1024))")
+    db.commit()
     log.log("Database successfully prepared")
 
     log.log("Articles max: " + str(MAX_ARTICLES))
@@ -69,6 +70,8 @@ def parse_article(queue, article):
     heading_html = soup.find_all(id = "firstHeading")[0]
     heading = heading_html.get_text()
     timestamp = str(time.time())
+    save_article_info(clear_name, heading, timestamp)
+    log.log("Article info saved")
     return queue
 
 def remove_protocol(link):
@@ -84,6 +87,8 @@ def article_is_parsed(clearname):
     pass
 
 def save_article_info(wiki_id, clearname, timestamp):
-    pass
+    params = (wiki_id, timestamp, clearname)
+    con.execute("INSERT INTO " + article_table_name + "(wiki_id, date, clearname) VALUES(?, ?, ?)", params)
+    db.commit()
 
 main()
