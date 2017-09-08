@@ -99,7 +99,12 @@ def strip_wiki_links(main_content):
     links = []
     subp = main_content.find_all("p")
     for paragraph in subp:
-        pass
+        potential_links = paragraph.find_all("a")
+        for l in potential_links:
+            if is_internal_link(l["href"]):
+                links.append(l["href"])
+                print(l["href"])
+
     return links
 
 def is_internal_link(link):
