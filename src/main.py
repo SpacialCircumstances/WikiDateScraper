@@ -76,7 +76,7 @@ def parse_article(queue, article):
     #Find links
     article_content = soup.find_all(class_ = "mw-parser-output")[0]
     possible_links = strip_wiki_links(article_content)
-    new_links = [i for i in possible_links if not article_is_parsed(i)]
+    new_links = [i for i in possible_links if (not article_is_parsed(i)) and (not i in queue)]
     log.log("Links found: " + str(len(possible_links)) + " New are: " + str(len(new_links)))
     return queue
 
@@ -90,7 +90,12 @@ def link_to_identifier(link):
     return link[start:]
 
 def article_is_parsed(wiki_id):
-    return False
+    par = (wiki_id,)
+    con.execute("SELECT clearname FROM " + article_table_name + " WHERE wiki_id = ?", par)
+    if con.fetchone() != None:
+        return True
+    else:
+        return False
 
 def save_article_info(wiki_id, clearname, timestamp):
     params = (wiki_id, timestamp, clearname)
@@ -105,7 +110,6 @@ def strip_wiki_links(main_content):
         for l in potential_links:
             if is_internal_link(l["href"]):
                 links.append(l["href"])
-                print(l["href"])
 
     return links
 
