@@ -6,7 +6,7 @@ import time
 import date_finder
 from bs4 import BeautifulSoup
 
-starting_article = "https://en.wikipedia.org/wiki/Constellation"
+starting_article = "https://en.wikipedia.org/wiki/International_Astronomical_Union"
 database_location = "data/wikiscraper.db"
 logging_location = "logs/logfile.txt"
 
@@ -84,7 +84,8 @@ def parse_article(queue, article):
     dates = []
     subp = article_content.find_all("p")
     for paragraph in subp:
-        dates.extend(date_finder.find_dates(paragraph.get_text()))
+        for i in date_finder.find_dates(paragraph.get_text()):
+            print(i)
 
     return queue
 
