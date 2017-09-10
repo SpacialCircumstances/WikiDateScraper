@@ -1,8 +1,8 @@
 import sqlite3
 import sys
+import time
 import requests
 import logger
-import time
 import date_finder
 from bs4 import BeautifulSoup
 
@@ -33,8 +33,6 @@ def main():
     log.log("Database saving in " + database_location)
     
     #Create tables in db
-    t = (article_table_name,)
-    t2 = (date_table_name,)
     con.execute("CREATE TABLE IF NOT EXISTS " + article_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), clearname VARCHAR(512))")
     con.execute("CREATE TABLE IF NOT EXISTS " + date_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), sentence VARCHAR(1024))")
     db.commit()
@@ -50,7 +48,7 @@ def main():
     log.log("##############################")
 
     while running:
-        if article_count < MAX_ARTICLES and len(queued_articles) > 0:
+        if article_count < MAX_ARTICLES and queued_articles:
             article_count += 1
             article = queued_articles.pop()
             queued_articles = parse_article(queued_articles, article)
@@ -101,10 +99,7 @@ def link_to_identifier(link):
 def article_is_parsed(wiki_id):
     par = (wiki_id,)
     con.execute("SELECT clearname FROM " + article_table_name + " WHERE wiki_id = ?", par)
-    if con.fetchone() != None:
-        return True
-    else:
-        return False
+    return con.fetchone() != None
 
 def save_article_info(wiki_id, clearname, timestamp):
     params = (wiki_id, timestamp, clearname)
@@ -116,9 +111,9 @@ def strip_wiki_links(main_content):
     subp = main_content.find_all("p")
     for paragraph in subp:
         potential_links = paragraph.find_all("a")
-        for l in potential_links:
-            if is_internal_link(l["href"]):
-                links.append(l["href"])
+        for link in potential_links:
+            if is_internal_link(link["href"]):
+                links.append(link["href"])
 
     return links
 
