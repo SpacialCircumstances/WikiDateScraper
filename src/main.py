@@ -3,6 +3,7 @@ import sys
 import requests
 import logger
 import time
+import date_finder
 from bs4 import BeautifulSoup
 
 starting_article = "https://en.wikipedia.org/wiki/Constellation"
@@ -78,6 +79,13 @@ def parse_article(queue, article):
     possible_links = strip_wiki_links(article_content)
     new_links = [i for i in possible_links if (not article_is_parsed(i)) and (not i in queue)]
     log.log("Links found: " + str(len(possible_links)) + " New are: " + str(len(new_links)))
+
+    #Find dates
+    dates = []
+    subp = article_content.find_all("p")
+    for paragraph in subp:
+        dates.extend(date_finder.find_dates(paragraph.get_text()))
+
     return queue
 
 def remove_protocol(link):
