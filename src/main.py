@@ -6,7 +6,7 @@ import time
 import date_finder
 from bs4 import BeautifulSoup
 
-starting_article = "https://en.wikipedia.org/wiki/International_Astronomical_Union"
+starting_article = "https://en.wikipedia.org/wiki/Battle_of_the_Atlantic"
 database_location = "data/wikiscraper.db"
 logging_location = "logs/logfile.txt"
 

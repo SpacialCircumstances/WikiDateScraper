@@ -1,7 +1,7 @@
 import re
 
 #simple date finder#
-YEAR_PATTERN = r"\d?\d?\d\d ?(BCE?|AD)?"
+YEAR_PATTERN = r"\d\d\d\d ?(BCE?|AD)?|\d\d\w\w century"
 MONTHS_PATTERN = r"(january|february|march|april|may|june|july|august|september|october|december|jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)"
 DAY_PATTERN = r"[0-3]?[0-9][.]?"
 MONTH_NUM_PATTERN = r"[0-1]?[0-9][.]?"
