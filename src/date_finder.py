@@ -25,8 +25,11 @@ def find_dates(text):
     dates = []
     for match in regex.finditer(text):
         datestring = match.group()
-        ct = DateContext(text, datestring)
-        dates.append(ct)
+        sentence = match.string
+        if len(sentence) > 2000:
+            sentence = match.string[:2000]
+        context = DateContext(text, datestring)
+        dates.append(context)
     return dates
 
 
