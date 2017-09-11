@@ -82,8 +82,9 @@ def parse_article(queue, article):
     dates = []
     subp = article_content.find_all("p")
     for paragraph in subp:
-        for i in date_finder.find_dates(paragraph.get_text()):
-            print(len(i.sentence))
+        dates.extend(date_finder.find_dates(paragraph.get_text()))
+    
+    
 
     return queue
 
