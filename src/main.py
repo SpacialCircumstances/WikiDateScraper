@@ -76,7 +76,7 @@ def parse_article(queue, article):
     #Find links
     article_content = soup.find_all(class_ = "mw-parser-output")[0]
     possible_links = strip_wiki_links(article_content)
-    new_links = [i for i in possible_links if (not article_is_parsed(i)) and (not i in queue)]
+    new_links = [i for i in possible_links if (not i in queue) and (not article_is_parsed(i))]
     log.log("Links found: " + str(len(possible_links)) + " New are: " + str(len(new_links)))
 
     #Find dates
