@@ -87,6 +87,8 @@ def parse_article(queue, article):
             quote.extract()
         dates.extend(date_finder.find_dates(paragraph.get_text()))
     
+    log.log("Dates found: " + str(len(dates)))
+
     for date in dates:
         save_date(date_parser.parse_date(date.date), date)
 
