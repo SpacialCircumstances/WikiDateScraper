@@ -24,14 +24,15 @@ class WikiDate:
         if self.year < 0:
             year = "-"
 
-        if self.year < 1000:
+        if abs(self.year) < 1000:
             year += "0"
 
-        if self.year < 100:
+        if abs(self.year) < 100:
             year += "0"
 
-        if self.year < 10:
+        if abs(self.year) < 10:
             year += "0"
 
-        year += str(self.year) 
+        year += str(abs(self.year))
+
         return days + ":" + months + ":" + year
