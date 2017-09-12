@@ -19,6 +19,9 @@ month_map = {"jan" : 1,
             "dec" : 12
             }
 
+day_finder_1 = re.compile(regexes.DAY_FINDER_1, re.IGNORECASE)
+day_finder_2 = re.compile(regexes.DAY_FINDER_2, re.IGNORECASE)
+
 def parse_date(datestring):
     date = wikidate.WikiDate()
     moy = year_finder.search(datestring)
@@ -42,7 +45,22 @@ def parse_date(datestring):
         date.month = month_map[mn]
 
     else:
-        #Try to find numbers
-        pass
+        #In reality, wikipedia always uses month names.
+        date.month = 0
+
+    #Find days
+    d1 = day_finder_1.search(datestring)
+    if d1:
+        days = int(num_finder.search(d1.group()).group())
+        date.days = days
+        
+    else:
+        d2 = day_finder_2.search(datestring)
+        if d2:
+            days = int(num_finder.search(d2.group()).group())
+            date.days = days
+
+        else:
+            date.days = 0
 
     return date
