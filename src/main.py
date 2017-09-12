@@ -34,8 +34,8 @@ def main():
     log.log("Database saving in " + database_location)
     
     #Create tables in db
-    con.execute("CREATE TABLE IF NOT EXISTS " + article_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), clearname VARCHAR(512))")
-    con.execute("CREATE TABLE IF NOT EXISTS " + date_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(255), sentence VARCHAR(2048))")
+    con.execute("CREATE TABLE IF NOT EXISTS " + article_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(16), clearname VARCHAR(512))")
+    con.execute("CREATE TABLE IF NOT EXISTS " + date_table_name + " (id INTEGER PRIMARY KEY NOT NULL, wiki_id VARCHAR(512), date VARCHAR(16), sentence VARCHAR(2048))")
     db.commit()
     log.log("Database successfully prepared")
 
@@ -69,7 +69,7 @@ def parse_article(queue, article):
     #Get the heading
     heading_html = soup.find_all(id = "firstHeading")[0]
     heading = heading_html.get_text()
-    timestamp = str(time.time())
+    timestamp = str(int(time.time()))
     save_article_info(wiki_id, heading, timestamp)
     log.log("Article info saved")
 
