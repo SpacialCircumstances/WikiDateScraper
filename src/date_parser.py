@@ -2,8 +2,8 @@ import wikidate
 import re
 import regexes
 
-year_finder = re.compile(".*?(" + regexes.YEAR_PATTERN + ")")
-num_finder = re.compile("\d+")
+year_finder = re.compile(r".*?(" + regexes.YEAR_PATTERN + ")")
+num_finder = re.compile(r"\d+")
 month_name_finder = re.compile(regexes.MONTHS_PATTERN, re.IGNORECASE)
 month_map = {"jan" : 1,
             "feb" : 2,
