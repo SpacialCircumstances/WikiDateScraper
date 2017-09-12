@@ -88,7 +88,7 @@ def parse_article(queue, article):
         dates.extend(date_finder.find_dates(paragraph.get_text()))
     
     for date in dates:
-        date_parser.parse_date(date.date)
+        save_date(date_parser.parse_date(date.date), date)
 
     return queue
 
@@ -100,6 +100,9 @@ def link_to_identifier(link):
     url_part = language_identifier + ".wikipedia.org/wiki/"
     start = link.find(url_part) + len(url_part)
     return link[start:]
+
+def save_date(date, context):
+    print(date.get_date_string())
 
 def article_is_parsed(wiki_id):
     par = (wiki_id,)
