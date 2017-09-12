@@ -13,4 +13,6 @@ MY_1_PATTERN = MONTHS_PATTERN + r" " + YEAR_PATTERN
 MY_2_PATTERN = MONTH_NUM_PATTERN + r" " + YEAR_PATTERN
 MY_3_PATTERN = r"[0-1]?[0-9]/ ?" + YEAR_PATTERN
 
+NOT_NULL_PATTERN = r"[1-9]"
+
 FULL_PATTERN = r"(" + DMY_1_PATTERN + r")|(" + DMY_2_PATTERN + r")|(" + DMY_3_PATTERN + r")|(" + DMY_4_PATTERN + r")|(" + MY_1_PATTERN + r")|(" + MY_2_PATTERN + r")|(" + MY_3_PATTERN + r")|(" + DM_PATTERN + r")|(" + YEAR_PATTERN + r")"
