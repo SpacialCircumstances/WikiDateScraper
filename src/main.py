@@ -4,9 +4,10 @@ import time
 import requests
 import logger
 import date_finder
+import date_parser
 from bs4 import BeautifulSoup
 
-starting_article = "https://en.wikipedia.org/wiki/Battle_of_the_Atlantic"
+starting_article = "https://en.wikipedia.org/wiki/Augustus"
 database_location = "data/wikiscraper.db"
 logging_location = "logs/logfile.txt"
 
@@ -84,7 +85,8 @@ def parse_article(queue, article):
     for paragraph in subp:
         dates.extend(date_finder.find_dates(paragraph.get_text()))
     
-    
+    for date in dates:
+        date_parser.parse_date(date.date)
 
     return queue
 
