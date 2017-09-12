@@ -33,5 +33,5 @@ class WikiDate:
         if self.year < 10:
             year += "0"
 
-        year += self.year 
+        year += str(self.year) 
         return days + ":" + months + ":" + year
