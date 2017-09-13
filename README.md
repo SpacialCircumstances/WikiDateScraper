@@ -7,10 +7,12 @@ WikiDateScraper is licensed under the MIT License. More information can be found
 WikiDateScraper is written in Python 3, so you will need that first. It was developed with Python 3.6.2, but it should be usable in most of the lower versions as long as they are compatible with the dependencies.
 WikiDateScraper needs [beautifulsoup4](https://www.crummy.com/software/BeautifulSoup/) as well as the [requests](http://docs.python-requests.org/en/master/) library.
 You can install all the dependencies with:
+
     pip install beautifulsoup4
     pip install requests
 
 Now clone this repository with:
+
     git clone https://github.com/SpacialCircumstances/WikiDateScraper.git
 
 And run with:
