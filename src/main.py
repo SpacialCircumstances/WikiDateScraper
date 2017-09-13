@@ -92,8 +92,9 @@ def parse_article(queue, article):
     log.log("Dates found: " + str(len(dates)))
 
     for date in dates:
-        save_date(date_parser.parse_date(date.date), date)
+        save_date(date_parser.parse_date(date.date), date, wiki_id)
 
+    db.commit()
     log.log("###### Finished")
     return queue
 
@@ -106,8 +107,9 @@ def link_to_identifier(link):
     start = link.find(url_part) + len(url_part)
     return link[start:]
 
-def save_date(date, context):
-    pass
+def save_date(date, context, wiki_id):
+    params = (wiki_id, date.get_date_string(), context.sentence)
+    con.execute("INSERT INTO " + date_table_name + " (wiki_id, date, sentence) VALUES (?, ?, ?)", params)
     #print(date.get_date_string())
 
 def article_is_parsed(wiki_id):
