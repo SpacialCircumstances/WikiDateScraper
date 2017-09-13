@@ -76,8 +76,10 @@ def parse_article(queue, article):
     #Find links
     article_content = soup.find_all(class_ = "mw-parser-output")[0]
     possible_links = strip_wiki_links(article_content)
-    new_links = [i for i in possible_links if (not i in queue) and (not article_is_parsed(i))]
+    new_links = ["http://" + language_identifier + ".wikipedia.org" + i for i in possible_links if (not i in queue) and (not article_is_parsed(i))]
     log.log("Links found: " + str(len(possible_links)) + " New are: " + str(len(new_links)))
+
+    queue.extend(new_links)
 
     #Find dates
     dates = []
@@ -104,7 +106,8 @@ def link_to_identifier(link):
     return link[start:]
 
 def save_date(date, context):
-    print(date.get_date_string())
+    pass
+    #print(date.get_date_string())
 
 def article_is_parsed(wiki_id):
     par = (wiki_id,)
@@ -122,8 +125,9 @@ def strip_wiki_links(main_content):
     for paragraph in subp:
         potential_links = paragraph.find_all("a")
         for link in potential_links:
-            if is_internal_link(link["href"]):
-                links.append(link["href"])
+            if link.has_attr("href"):
+                if is_internal_link(link["href"]):
+                    links.append(link["href"])
 
     return links
 
