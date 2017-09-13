@@ -11,7 +11,7 @@ starting_article = "https://en.wikipedia.org/wiki/Augustus"
 database_location = "data/wikiscraper.db"
 logging_location = "logs/logfile.txt"
 
-MAX_ARTICLES = 250
+MAX_ARTICLES = 20000
 if len(sys.argv) > 1:
     starting_article = sys.argv[1]
 
@@ -19,6 +19,9 @@ if len(sys.argv) > 2:
     database_location = sys.argv[2]
 
 language_identifier = starting_article[starting_article.find("//") + 2:starting_article.find(".")]
+
+st = starting_article.find("/wiki/")
+starting_article = starting_article[st:]
 
 log = logger.Logger(logging_location)
 db = sqlite3.connect(database_location)
@@ -52,6 +55,7 @@ def main():
         if article_count < MAX_ARTICLES and queued_articles:
             article_count += 1
             article = queued_articles.pop(0)
+            print(article + ":" + str(article_count))
             queued_articles = parse_article(queued_articles, article)
 
         else:
@@ -62,7 +66,7 @@ def main():
 def parse_article(queue, article):
     wiki_id = link_to_identifier(article)
     log.log("Requesting " + wiki_id)
-    wikipage = requests.get(article)
+    wikipage = requests.get("https://" + language_identifier + ".wikipedia.org" + article)
     log.log("Response: " + str(wikipage.status_code))
     soup = BeautifulSoup(wikipage.content, "html.parser")
 
@@ -76,7 +80,7 @@ def parse_article(queue, article):
     #Find links
     article_content = soup.find_all(class_ = "mw-parser-output")[0]
     possible_links = strip_wiki_links(article_content)
-    new_links = ["https://" + language_identifier + ".wikipedia.org" + i for i in possible_links if (not i in queue) and (not article_is_parsed(i))]
+    new_links = [i for i in possible_links if (not i in queue) and (not article_is_parsed(i))]
     log.log("Links found: " + str(len(possible_links)) + " New are: " + str(len(new_links)))
 
     queue.extend(new_links)
@@ -103,7 +107,7 @@ def remove_protocol(link):
     return link[:end]
 
 def link_to_identifier(link):
-    url_part = language_identifier + ".wikipedia.org/wiki/"
+    url_part = "/wiki/"
     start = link.find(url_part) + len(url_part)
     return link[start:]
 
