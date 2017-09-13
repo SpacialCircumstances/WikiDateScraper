@@ -94,6 +94,7 @@ def parse_article(queue, article):
     for date in dates:
         save_date(date_parser.parse_date(date.date), date)
 
+    log.log("###### Finished")
     return queue
 
 def remove_protocol(link):
