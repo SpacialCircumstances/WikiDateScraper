@@ -11,7 +11,7 @@ starting_article = "https://en.wikipedia.org/wiki/Augustus"
 database_location = "data/wikiscraper.db"
 logging_location = "logs/logfile.txt"
 
-MAX_ARTICLES = 50
+MAX_ARTICLES = 250
 if len(sys.argv) > 1:
     starting_article = sys.argv[1]
 
@@ -76,7 +76,7 @@ def parse_article(queue, article):
     #Find links
     article_content = soup.find_all(class_ = "mw-parser-output")[0]
     possible_links = strip_wiki_links(article_content)
-    new_links = ["http://" + language_identifier + ".wikipedia.org" + i for i in possible_links if (not i in queue) and (not article_is_parsed(i))]
+    new_links = ["https://" + language_identifier + ".wikipedia.org" + i for i in possible_links if (not i in queue) and (not article_is_parsed(i))]
     log.log("Links found: " + str(len(possible_links)) + " New are: " + str(len(new_links)))
 
     queue.extend(new_links)
