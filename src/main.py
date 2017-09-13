@@ -51,7 +51,7 @@ def main():
     while running:
         if article_count < MAX_ARTICLES and queued_articles:
             article_count += 1
-            article = queued_articles.pop()
+            article = queued_articles.pop(0)
             queued_articles = parse_article(queued_articles, article)
 
         else:
