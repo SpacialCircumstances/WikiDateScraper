@@ -90,7 +90,8 @@ def parse_article(queue, article):
     subp = article_content.find_all("p")
     for paragraph in subp:
         for quote in paragraph.find_all("a"):
-            quote.extract()
+            if(quote.get_text()[:1] == "["):
+                quote.extract()
         dates.extend(date_finder.find_dates(paragraph.get_text()))
     
     log.log("Dates found: " + str(len(dates)))
