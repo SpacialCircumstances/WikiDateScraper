@@ -135,11 +135,17 @@ def strip_wiki_links(main_content):
         for link in potential_links:
             if link.has_attr("href"):
                 if is_internal_link(link["href"]):
-                    links.append(link["href"])
+                    links.append(remove_anchor(link["href"]))
 
     return links
 
 def is_internal_link(link):
     return (link[:6] == "/wiki/") and (link[6:11] != "File:")
+
+def remove_anchor(link):
+    if("#" in link):
+        return link[:link.find("#")]
+    else:
+        return link
 
 main()
