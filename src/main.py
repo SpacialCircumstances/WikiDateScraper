@@ -56,7 +56,10 @@ def main():
             article_count += 1
             article = queued_articles.pop(0)
             print(article + ":" + str(article_count))
-            queued_articles = parse_article(queued_articles, article)
+            try:
+                queued_articles = parse_article(queued_articles, article)
+            except Exception as e:
+                log.log("Error: " + str(e))
 
         else:
             running = False
